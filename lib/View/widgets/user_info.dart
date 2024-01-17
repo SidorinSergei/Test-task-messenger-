@@ -33,24 +33,29 @@ class UserBlock extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Row(
-        children: [
-          _buildUserAvatar(userColor),
-          SizedBox(width: 8.0),
-          _buildUserInfo(),
-          Spacer(),
-          if (isOnline) _buildOnlineIndicator(),
-        ],
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildUserAvatar(userColor),
+            SizedBox(width: 8.0),
+            _buildUserInfo(),
+            Spacer(),
+            if (isOnline) _buildOnlineIndicator(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildUserAvatar(Color color) {
+    String initials = _getInitials(userName);
     return CircleAvatar(
-      radius: 24.0,
+      radius: 30.0,
       backgroundColor: color,
       child: Text(
-        userName.isNotEmpty ? userName[0].toUpperCase() : '',
+        initials,
         style: TextStyle(
           fontFamily: 'Gilroy',
           fontSize: 20.0,
@@ -61,7 +66,22 @@ class UserBlock extends StatelessWidget {
     );
   }
 
+  String _getInitials(String name) {
+    List<String> names = name.split(" ");
+    String initials = "";
+    if (names.length > 0) {
+      initials += names[0][0];
+      if (names.length > 1) {
+        initials += names[1][0];
+      }
+    }
+    return initials;
+  }
+
   Widget _buildUserInfo() {
+    String truncatedMessage =
+    lastMessage.length > 40 ? lastMessage.substring(0, 30) + "..." : lastMessage;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -73,13 +93,15 @@ class UserBlock extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        SizedBox(height: 10.0),
         Text(
-          lastMessage,
+          truncatedMessage,
           style: TextStyle(
             fontFamily: 'Gilroy',
             fontSize: 12.0,
             color: Colors.grey,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );

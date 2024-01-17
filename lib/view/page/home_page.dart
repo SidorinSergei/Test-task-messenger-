@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/search_bar.dart' as CustomSearchBar;
 import '../widgets/page_title.dart';
+import '../widgets/user_info.dart';
 import '../widgets/divider_line.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -20,10 +21,20 @@ class MyHomePage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                ListTile(title: Text('Пользователь 1')),
-                ListTile(title: Text('Пользователь 2')),
+                UserBlock(
+                  userName: 'Пользователь 1',
+                  lastMessage: 'Последнее сообщение от пользователя 1',
+                  isOnline: true, // Замените на актуальное состояние пользователя
+                ),
+                UserBlock(
+                  userName: 'льзователь 2',
+                  lastMessage: 'Последнее сообщение от пользователя 2',
+                  isOnline: false,
+                ),
+                // Добавьте другие UserBlock по мере необходимости
               ],
             ),
+
           ),
         ],
       ),

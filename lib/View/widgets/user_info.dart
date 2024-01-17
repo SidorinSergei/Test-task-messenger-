@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import '../page/chat_user.dart';
 
 class UserBlock extends StatelessWidget {
   final String userName;
@@ -26,33 +27,43 @@ class UserBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color userColor = _generateUserColor(userName);
+    String initials = _getInitials(userName);
 
-    return Container(
-      margin: EdgeInsets.all(8.0),
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildUserAvatar(userColor),
-            SizedBox(width: 8.0),
-            _buildUserInfo(),
-            Spacer(),
-            if (isOnline) _buildOnlineIndicator(),
-          ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserProfilePage(userName: userName, userColor: userColor),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildUserAvatar(userColor, initials),
+              SizedBox(width: 8.0),
+              _buildUserInfo(),
+              Spacer(),
+              if (isOnline) _buildOnlineIndicator(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildUserAvatar(Color color) {
-    String initials = _getInitials(userName);
+  Widget _buildUserAvatar(Color color, String initials) {
     return CircleAvatar(
-      radius: 30.0,
+      radius: 24.0,
       backgroundColor: color,
       child: Text(
         initials,
@@ -93,7 +104,7 @@ class UserBlock extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 10.0),
+        SizedBox(height: 4.0),
         Text(
           truncatedMessage,
           style: TextStyle(

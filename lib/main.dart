@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'view/page/home_page.dart'; // Укажите правильный путь к вашей странице
+import 'view/page/home_page.dart';
 
 void main() {
   runApp(MyApp());
